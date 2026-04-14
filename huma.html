@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Huma - My Sincerest Apology</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@200;300;400;500&family=Great+Vibes&display=swap" rel="stylesheet">
+    
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        /* =========================================
+           CSS VARIABLES & RESET
+           ========================================= */
+        :root {
+            --primary-bg: #fcf9f9;
+            --secondary-bg: #fff0f3;
+            --accent-color: #e2b4bd;
+            --text-dark: #2b2b2b;
+            --text-light: #5a5a5a;
+            --glass-bg: rgba(255, 255, 255, 0.6);
+            --glass-border: rgba(255, 255, 255, 0.8);
+            --glass-shadow: 0 8px 32px 0 rgba(226, 180, 189, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none; /* Custom cursor used */
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--primary-bg);
+            color: var(--text-dark);
+            overflow-x: hidden;
+            line-height: 1.8;
+        }
+
+        /* Custom Selection */
+        ::selection {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--primary-bg);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent-color);
+            border-radius: 10px;
+        }
+
+        /* Typography */
+        h1, h2, h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 400;
+        }
+
+        .cursive {
+            font-family: 'Great Vibes', cursive;
+            color: var(--accent-color);
+        }
+
+        /* =========================================
+           CUSTOM CURSOR & PROGRESS BAR
+           ========================================= */
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--accent-color);
+            position: fixed;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width 0.2s, height 0.2s;
+        }
+
+        .cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--accent-color);
+            position: fixed;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9998;
+            transform: translate(-50%, -50%);
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+
+        #progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(90deg, #ffc2d1, #e2b4bd);
+            z-index: 10000;
+            transition: width 0.1s;
+        }
+
+        /* =========================================
+           PRELOADER
+           ========================================= */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: var(--primary-bg);
+            z-index: 100000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            transition: opacity 1s ease;
+        }
+
+        .heart-loader {
+            width: 50px;
+            height: 50px;
+            background: var(--accent-color);
+            position: relative;
+            transform: rotate(45deg);
+            animation: heartbeat 1.2s infinite;
+        }
+
+        .heart-loader::before, .heart-loader::after {
+            content: "";
+            width: 50px;
+            height: 50px;
+            background: var(--accent-color);
+            position: absolute;
+            border-radius: 50%;
+        }
+
+        .heart-loader::before { top: -25px; left: 0; }
+        .heart-loader::after { top: 0; left: -25px; }
+
+        @keyframes heartbeat {
+            0% { transform: rotate(45deg) scale(0.8); }
+            14% { transform: rotate(45deg) scale(1.1); }
+            28% { transform: rotate(45deg) scale(1); }
+            42% { transform: rotate(45deg) scale(1.1); }
+            70% { transform: rotate(45deg) scale(0.8); }
+        }
+
+        #preloader p {
+            margin-top: 40px;
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            color: var(--text-light);
+            letter-spacing: 2px;
+        }
+
+        /* =========================================
+           GENERAL LAYOUT & UTILS
+           ========================================= */
+        section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 100px 10%;
+            position: relative;
+        }
+
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: var(--glass-shadow);
+            max-width: 800px;
+            width: 100%;
+            position: relative;
+            z-index: 10;
+        }
+
+        .section-title {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            color: var(--text-dark);
+        }
+
+        .text-content {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+            text-align: justify;
+            font-weight: 300;
+        }
+
+        /* =========================================
+           HERO SECTION
+           ========================================= */
+        #hero {
+            background: radial-gradient(circle at center, #fff, var(--secondary-bg));
+            overflow: hidden;
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 2;
+        }
+
+        .hero-title {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeUp 2s 1s forwards;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: var(--text-light);
+            font-style: italic;
+            opacity: 0;
+            animation: fadeUp 2s 1.5s forwards;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+            opacity: 0;
+            animation: fadeUp 2s 2.5s forwards, bounce 2s infinite;
+        }
+
+        .scroll-indicator span {
+            display: block;
+            width: 1px;
+            height: 40px;
+            background: var(--text-light);
+            margin: 10px auto 0;
+        }
+
+        @keyframes fadeUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0) translateX(-50%); }
+            40% { transform: translateY(-20px) translateX(-50%); }
+            60% { transform: translateY(-10px) translateX(-50%); }
+        }
+
+        /* =========================================
+           THE STORY (TIMELINE)
+           ========================================= */
+        #story {
+            background: var(--primary-bg);
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 2px;
+            background-color: var(--accent-color);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -1px;
+            opacity: 0.3;
+        }
+
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 50%;
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            right: -8px;
+            background-color: var(--primary-bg);
+            border: 3px solid var(--accent-color);
+            top: 15px;
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .left { left: 0; }
+        .right { left: 50%; }
+        .right::after { left: -8px; }
+
+        .timeline-content {
+            padding: 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+            border: 1px solid #f0f0f0;
+            transition: transform 0.3s ease;
+        }
+
+        .timeline-content:hover {
+            transform: translateY(-5px);
+        }
+
+        .timeline-content h3 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: var(--accent-color);
+        }
+
+        /* =========================================
+           THE APOLOGY (GLASS CARDS)
+           ========================================= */
+        #apology {
+            background: url('data:image/svg+xml;utf8,<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="dots" width="40" height="40" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1" fill="%23e2b4bd" fill-opacity="0.2"/></pattern></defs><rect width="100%" height="100%" fill="url(%23dots)"/></svg>') var(--secondary-bg);
+        }
+
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            width: 100%;
+            max-width: 1000px;
+            margin-top: 3rem;
+        }
+
+        .apology-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 2.5rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.9);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+
+        .apology-card h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        /* =========================================
+           DISTANCE & REALIZATION (INTERACTIVE)
+           ========================================= */
+        #distance {
+            background: #2b2b2b;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #distance h2 {
+            color: #fff;
+        }
+
+        #distance p {
+            color: #ccc;
+        }
+
+        #particle-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.6;
+        }
+
+        .distance-glass {
+            background: rgba(20, 20, 20, 0.4);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: white;
+        }
+
+        /* =========================================
+           THE PROMISE
+           ========================================= */
+        #promise {
+            background: var(--primary-bg);
+        }
+
+        .promise-list {
+            list-style: none;
+            margin-top: 2rem;
+        }
+
+        .promise-list li {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            color: var(--text-light);
+        }
+
+        .promise-list li::before {
+            content: '♡';
+            color: var(--accent-color);
+            font-size: 1.5rem;
+            margin-right: 15px;
+        }
+
+        /* =========================================
+           FINAL LETTER (TYPING EFFECT)
+           ========================================= */
+        #letter {
+            background: var(--secondary-bg);
+            text-align: left;
+        }
+
+        .letter-paper {
+            background: #fff;
+            padding: 4rem;
+            border-radius: 5px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+            position: relative;
+            max-width: 800px;
+            width: 100%;
+        }
+
+        .letter-paper::before {
+            content: '';
+            position: absolute;
+            top: 0; bottom: 0; left: 40px;
+            width: 1px;
+            background: #ffc2d1;
+        }
+
+        #typed-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.4rem;
+            line-height: 2;
+            color: #444;
+            white-space: pre-wrap;
+        }
+
+        .cursor-blink {
+            display: inline-block;
+            width: 2px;
+            height: 1.4rem;
+            background-color: var(--accent-color);
+            animation: blink 1s infinite;
+            vertical-align: bottom;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        .signature {
+            margin-top: 3rem;
+            font-size: 3rem;
+            text-align: right;
+        }
+
+        /* =========================================
+           AUDIO CONTROLS & FLOATING ELEMENTS
+           ========================================= */
+        .controls {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 9999;
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.8);
+            backdrop-filter: blur(5px);
+            border: 1px solid var(--accent-color);
+            color: var(--accent-color);
+            font-size: 1.2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+
+        .btn:hover {
+            background: var(--accent-color);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .floating-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none; z-index: 0; overflow: hidden;
+        }
+
+        .bg-circle {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(226,180,189,0.3) 0%, rgba(255,255,255,0) 70%);
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .c1 { width: 600px; height: 600px; top: -10%; left: -10%; }
+        .c2 { width: 400px; height: 400px; bottom: 10%; right: -5%; animation-delay: -5s; }
+        .c3 { width: 500px; height: 500px; top: 40%; left: 40%; animation-delay: -10s; }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(30px, -30px); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-title { font-size: 3rem; }
+            .timeline::after { left: 31px; }
+            .timeline-item { width: 100%; padding-left: 70px; padding-right: 25px; }
+            .timeline-item::after { left: 23px; }
+            .right { left: 0%; }
+            .letter-paper { padding: 2rem 1.5rem; }
+            .letter-paper::before { display: none; }
+            .cursor-outline { display: none; } /* Hide custom cursor on mobile */
+            .cursor-dot { display: none; }
+            * { cursor: auto; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="progress-bar"></div>
+
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+
+    <div id="preloader">
+        <div class="heart-loader"></div>
+        <p>Loading pieces of my heart...</p>
+    </div>
+
+    <div class="floating-bg">
+        <div class="bg-circle c1"></div>
+        <div class="bg-circle c2"></div>
+        <div class="bg-circle c3"></div>
+    </div>
+
+    <audio id="bg-music" loop>
+        <source src="https://assets.mixkit.co/music/preview/mixkit-beautiful-dream-493.mp3" type="audio/mpeg">
+    </audio>
+    <div class="controls">
+        <button class="btn" id="music-btn" title="Play Music">🎵</button>
+    </div>
+
+    <section id="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">I'm Sorry, <span class="cursive">Huma...</span></h1>
+            <p class="hero-subtitle">Some mistakes can’t be undone, but my heart refuses to stop trying.</p>
+        </div>
+        <div class="scroll-indicator">
+            <small>Scroll</small>
+            <span></span>
+        </div>
+    </section>
+
+    <section id="story">
+        <h2 class="section-title" data-aos="fade-down">How We Happened</h2>
+        <div class="timeline">
+            <div class="timeline-item left" data-aos="fade-right" data-aos-duration="1000">
+                <div class="timeline-content">
+                    <h3>The First Connection</h3>
+                    <p class="text-content">It started through screens. Words typed out late at night. I didn't know then that a simple notification on my phone would soon become the highlight of my entire day.</p>
+                </div>
+            </div>
+            <div class="timeline-item right" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200">
+                <div class="timeline-content">
+                    <h3>Becoming My Safe Space</h3>
+                    <p class="text-content">You became more than just a person to talk to. You became my comfort. The laughs we shared, the stories we told—you brought a peace into my chaotic world that I desperately needed.</p>
+                </div>
+            </div>
+            <div class="timeline-item left" data-aos="fade-right" data-aos-duration="1000" data-aos-delay="400">
+                <div class="timeline-content">
+                    <h3>The Value of You</h3>
+                    <p class="text-content">I realized quickly how incredibly important you were to me. But sometimes, humans are flawed. We take the most beautiful things for granted until we risk losing them.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="apology">
+        <div class="glass-panel" data-aos="zoom-in" data-aos-duration="1500">
+            <h2 class="section-title">Where I Failed</h2>
+            <p class="text-content" style="text-align: center;">I am stripping away my ego, my pride, and my defenses. Here is my raw truth.</p>
+            
+            <div class="card-container">
+                <div class="apology-card" data-aos="fade-up" data-aos-delay="100">
+                    <h3>The Anger</h3>
+                    <p class="text-content">I let my emotions override my logic and my care for you. I allowed anger to blind me, and in that blindness, I swung recklessly.</p>
+                </div>
+                <div class="apology-card" data-aos="fade-up" data-aos-delay="300">
+                    <h3>The Words</h3>
+                    <p class="text-content">Words are weapons, and I used them poorly. I said things that hurt the person I should have been protecting. There is no excuse for making you feel anything less than cherished.</p>
+                </div>
+                <div class="apology-card" data-aos="fade-up" data-aos-delay="500">
+                    <h3>The Accountability</h3>
+                    <p class="text-content">I am not blaming the situation, the stress, or the distance. I blame myself. I own my actions completely. I broke your trust, and I accept the weight of that.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="distance">
+        <canvas id="particle-canvas"></canvas>
+        <div class="glass-panel distance-glass" data-aos="fade-up" data-aos-duration="2000">
+            <h2 class="section-title">The Deafening Silence</h2>
+            <p class="text-content" style="color: #ddd;">Since we stopped talking, the physical distance between us feels like nothing compared to the emotional void. The silence is loud. It echoes in my room, in my thoughts, and in my daily routines.</p>
+            <p class="text-content" style="color: #ddd;">Losing your voice made me realize exactly what I had. It showed me how much life lacks color when you aren't a part of it. The space between us right now feels infinite, but my heart is still reaching out to yours.</p>
+        </div>
+    </section>
+
+    <section id="promise">
+        <div class="glass-panel" data-aos="fade-up">
+            <h2 class="section-title">My Commitment</h2>
+            <p class="text-content">An apology without changed behavior is just manipulation. I don't just want to say sorry; I want to show you the man I am choosing to be.</p>
+            
+            <ul class="promise-list">
+                <li data-aos="fade-right" data-aos-delay="100">I promise to pause, breathe, and choose patience over anger.</li>
+                <li data-aos="fade-right" data-aos-delay="200">I promise to respect your boundaries, your feelings, and your heart as if they were my own.</li>
+                <li data-aos="fade-right" data-aos-delay="300">I promise to listen to understand, not just to reply.</li>
+                <li data-aos="fade-right" data-aos-delay="400">I promise to never use words to tear you down, but only to build you up.</li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="letter">
+        <div class="letter-paper" id="letter-trigger">
+            <h2 class="section-title" style="text-align: left; margin-bottom: 2rem;">To Huma,</h2>
+            <div id="typed-text"></div><span class="cursor-blink"></span>
+            <p class="signature cursive" data-aos="fade-in" data-aos-delay="3000" data-aos-duration="2000" style="opacity: 0;">Yours,<br>Muhib</p>
+        </div>
+    </section>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // 1. Initialize AOS Animations
+        AOS.init({
+            once: true,
+            offset: 100,
+            duration: 1000
+        });
+
+        // 2. Preloader Logic
+        window.addEventListener('load', () => {
+            const preloader = document.getElementById('preloader');
+            setTimeout(() => {
+                preloader.style.opacity = '0';
+                setTimeout(() => {
+                    preloader.style.display = 'none';
+                }, 1000);
+            }, 1500); // Artificial delay to show the heartbeat
+        });
+
+        // 3. Custom Cursor Logic
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorOutline = document.querySelector('.cursor-outline');
+
+        window.addEventListener('mousemove', (e) => {
+            const posX = e.clientX;
+            const posY = e.clientY;
+
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+
+            // Adding slight delay to outline for smooth effect
+            cursorOutline.animate({
+                left: `${posX}px`,
+                top: `${posY}px`
+            }, { duration: 150, fill: "forwards" });
+        });
+
+        // Hover effects for custom cursor
+        const hoverElements = document.querySelectorAll('button, a, .timeline-content, .apology-card');
+        hoverElements.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursorOutline.style.width = '60px';
+                cursorOutline.style.height = '60px';
+                cursorOutline.style.backgroundColor = 'rgba(226, 180, 189, 0.2)';
+            });
+            el.addEventListener('mouseleave', () => {
+                cursorOutline.style.width = '40px';
+                cursorOutline.style.height = '40px';
+                cursorOutline.style.backgroundColor = 'transparent';
+            });
+        });
+
+        // 4. Scroll Progress Bar
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progress-bar').style.width = scrolled + '%';
+        });
+
+        // 5. Background Music Logic (Fade in/out)
+        const music = document.getElementById("bg-music");
+        const btn = document.getElementById("music-btn");
+        let isPlaying = false;
+        music.volume = 0.3;
+
+        btn.addEventListener('click', () => {
+            if (isPlaying) {
+                music.pause();
+                btn.innerHTML = "🎵";
+                btn.style.opacity = "0.7";
+            } else {
+                music.play().catch(e => console.log("Audio play blocked."));
+                btn.innerHTML = "⏸️";
+                btn.style.opacity = "1";
+            }
+            isPlaying = !isPlaying;
+        });
+
+        // 6. Interactive Particle Canvas (Distance Section)
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        let particlesArray;
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        class Particle {
+            constructor(x, y, directionX, directionY, size, color) {
+                this.x = x;
+                this.y = y;
+                this.directionX = directionX;
+                this.directionY = directionY;
+                this.size = size;
+                this.color = color;
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+            }
+            update() {
+                if (this.x > canvas.width || this.x < 0) this.directionX = -this.directionX;
+                if (this.y > canvas.height || this.y < 0) this.directionY = -this.directionY;
+                
+                this.x += this.directionX;
+                this.y += this.directionY;
+                this.draw();
+            }
+        }
+
+        function initParticles() {
+            particlesArray = [];
+            let numberOfParticles = (canvas.height * canvas.width) / 9000;
+            for (let i = 0; i < numberOfParticles; i++) {
+                let size = (Math.random() * 2) + 1;
+                let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
+                let y = (Math.random() * ((innerHeight - size * 2) - (size * 2)) + size * 2);
+                let directionX = (Math.random() * 1) - 0.5;
+                let directionY = (Math.random() * 1) - 0.5;
+                let color = 'rgba(226, 180, 189, 0.5)';
+                particlesArray.push(new Particle(x, y, directionX, directionY, size, color));
+            }
+        }
+
+        function animateParticles() {
+            requestAnimationFrame(animateParticles);
+            ctx.clearRect(0, 0, innerWidth, innerHeight);
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+            }
+            connectParticles();
+        }
+
+        function connectParticles() {
+            let opacityValue = 1;
+            for (let a = 0; a < particlesArray.length; a++) {
+                for (let b = a; b < particlesArray.length; b++) {
+                    let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x)) + 
+                                   ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
+                    if (distance < (canvas.width / 7) * (canvas.height / 7)) {
+                        opacityValue = 1 - (distance / 20000);
+                        ctx.strokeStyle = `rgba(226, 180, 189, ${opacityValue})`;
+                        ctx.lineWidth = 1;
+                        ctx.beginPath();
+                        ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+                        ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        window.addEventListener('resize', () => {
+            canvas.width = innerWidth;
+            canvas.height = innerHeight;
+            initParticles();
+        });
+
+        initParticles();
+        animateParticles();
+
+        // 7. Typing Effect for Final Letter
+        const textToType = "I don't know if I deserve another chance. I know I have broken something fragile, and fixing it takes more than just words.\n\nBut if you ever find it in your heart to forgive me, I promise you will meet a version of me that protects your heart, respects your mind, and cherishes your presence.\n\nNo matter the distance, you are always close to my heart. I am so deeply sorry.";
+        
+        const typeContainer = document.getElementById('typed-text');
+        const letterTrigger = document.getElementById('letter-trigger');
+        let index = 0;
+        let isTypingStarted = false;
+
+        function typeWriter() {
+            if (index < textToType.length) {
+                if(textToType.charAt(index) === '\n') {
+                    typeContainer.innerHTML += '<br>';
+                } else {
+                    typeContainer.innerHTML += textToType.charAt(index);
+                }
+                index++;
+                setTimeout(typeWriter, 50); // Typing speed
+            } else {
+                document.querySelector('.signature').style.opacity = '1';
+                document.querySelector('.cursor-blink').style.display = 'none';
+            }
+        }
+
+        // Trigger typing effect when scrolled into view
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !isTypingStarted) {
+                    isTypingStarted = true;
+                    setTimeout(typeWriter, 1000); // 1 sec delay before starting
+                }
+            });
+        }, { threshold: 0.5 });
+
+        observer.observe(letterTrigger);
+
+    </script>
+</body>
+</html>
